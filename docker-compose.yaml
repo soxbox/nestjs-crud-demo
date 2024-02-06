@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgis/postgis:14-3.3
+    restart: always
+    ports:
+      - 25432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - ./docker-data/postgres:/var/lib/postgresql/data/
+    healthcheck:
+      test: pg_isready -U postgres -h 127.0.0.1
+      interval: 5s
+    tty: true
+    stdin_open: true
+    logging:
+      options:
+        max-size: 10m
+        max-file: '3'
+  api:
+    image: node:20
+    env_file: .env_development
+    volumes: 
+      - .:/home/node/app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+    entrypoint: /home/node/app/docker-entrypoint.sh
+    command: yarn start:dev
