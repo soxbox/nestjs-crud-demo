@@ -13,7 +13,7 @@ import { User as UserModel, Prisma } from '@prisma/client';
 
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService) { }
 
   @Post()
   create(@Body() userData: Prisma.UserCreateInput): Promise<UserModel> {
@@ -57,5 +57,10 @@ export class UserController {
     return this.userService.deleteUser({
       id: Number(id),
     });
+  }
+
+  @Get(':id/recomendations')
+  recomendations(@Param('id') id: string): Promise<{ id: number, name: string, depth: number, distance: number }[]> {
+    return this.userService.friendRecomendation(Number(id))
   }
 }

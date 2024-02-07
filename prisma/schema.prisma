@@ -14,8 +14,8 @@ model User {
   id       Int      @id @default(autoincrement())
   email    String   @unique
   name     String
-  friendBy Friend[] @relation("userBy")
-  friend   Friend[] @relation("friendsBy")
+  friendBy Friend[] @relation("friendsBy")
+  friend   Friend[] @relation("userBy")
 }
 
 model Friend {

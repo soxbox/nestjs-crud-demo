@@ -30,4 +30,5 @@ services:
     depends_on:
       - postgres
     entrypoint: /home/node/app/docker-entrypoint.sh
+    working_dir: /home/node/app
     command: yarn start:dev
